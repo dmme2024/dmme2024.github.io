@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Redis（测试hugo的帖子） 基本数据结构 RedisObject Redis对象头，所有Redis对象都有这个对象头 struct RedisObject { int4 type; // 4bits 类型 int4 encoding; // 4bits 编码方式 int24 lru; // 24bits L'><title>Redis</title>
+
+<link rel='canonical' href='https://www.dmme2024.xyz/p/redis/'>
+
+<link rel="stylesheet" href="/scss/style.min.66f583f5c4864b4c5d78afe672837f369e92b61febe85642fe979a2ad8fa1f38.css"><meta property='og:title' content='Redis'>
+<meta property='og:description' content='Redis（测试hugo的帖子） 基本数据结构 RedisObject Redis对象头，所有Redis对象都有这个对象头 struct RedisObject { int4 type; // 4bits 类型 int4 encoding; // 4bits 编码方式 int24 lru; // 24bits L'>
+<meta property='og:url' content='https://www.dmme2024.xyz/p/redis/'>
+<meta property='og:site_name' content='Dmme&#39;s blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Redis' /><meta property='article:published_time' content='2022-06-05T00:22:03&#43;08:00'/><meta property='article:modified_time' content='2022-06-05T00:22:03&#43;08:00'/>
+<meta name="twitter:title" content="Redis">
+<meta name="twitter:description" content="Redis（测试hugo的帖子） 基本数据结构 RedisObject Redis对象头，所有Redis对象都有这个对象头 struct RedisObject { int4 type; // 4bits 类型 int4 encoding; // 4bits 编码方式 int24 lru; // 24bits L">
+    <link rel="shortcut icon" href="/img/favicon.png" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hube6440073dde582447cbb8762cfa85df_71216_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Dmme</a></h1>
+            <h2 class="site-description">分享使得知识增值！</h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" style="background-color: #2a9d8f; color: #fff;">
+                阅读笔记
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/redis/">Redis</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 05, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 6 分钟
+                </time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="56" height="56" viewBox="0 0 24 24" stroke-width="1" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+  <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+</svg>
+                <time class="article-words">
+                    2851字
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="redis测试hugo的帖子">Redis（测试hugo的帖子）</h1>
+<h2 id="基本数据结构">基本数据结构</h2>
+<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/image-20220529190931956.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220529190931956"
+	
+	
+></p>
+<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/image-20220529191010355.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220529191010355"
+	
+	
+></p>
+<h3 id="redisobject">RedisObject</h3>
+<p>Redis对象头，所有Redis对象都有这个对象头</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">RedisObject</span> 
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">int4</span> <span class="n">type</span><span class="p">;</span> <span class="c1">// 4bits 类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> 	<span class="n">int4</span> <span class="n">encoding</span><span class="p">;</span> <span class="c1">// 4bits 编码方式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> 	<span class="n">int24</span> <span class="n">lru</span><span class="p">;</span> <span class="c1">// 24bits LRU时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> 	<span class="n">int32</span> <span class="n">refcount</span><span class="p">;</span> <span class="c1">// 4bytes 引用计数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span> 	<span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span> <span class="c1">// 8bytes，64-bit system 指向对象值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">robj</span><span class="p">;</span>
+</span></span></code></pre></div><p><strong>encoding：</strong> 决定了对象的数据结构，比如是采用字典还是压缩链表等，如下</p>
+<div class="table-wrapper"><table>
+    <thead>
+        <tr>
+            <th>类型</th>
+            <th>编码</th>
+            <th>对象</th>
+        </tr></thead>
+    <tbody>
+        <tr>
+            <td>REDIS_STRING</td>
+            <td>REDIS_ENCODING_INT</td>
+            <td>使用整数值实现的字符串对象</td>
+        </tr>
+        <tr>
+            <td>REDIS_STRING</td>
+            <td>REDIS_ENCODING_RAW</td>
+            <td>使用简单动态字符串实现的字符串对象</td>
+        </tr>
+        <tr>
+            <td>REDIS_STRING</td>
+            <td>REDIS_ENCODING_EMBSTR</td>
+            <td>使用embstr编码的简单动态字符串实现的字符串对象</td>
+        </tr>
+        <tr>
+            <td>REDIS_LIST</td>
+            <td>REDIS_ENCODING_ZIPLIST</td>
+            <td>使用压缩列表实现的列表对象</td>
+        </tr>
+        <tr>
+            <td>REDIS_LIST</td>
+            <td>REDIS_ENCODING_LINKENDLIST</td>
+            <td>使用双端链表实现的列表对象</td>
+        </tr>
+        <tr>
+            <td>REDIS_HASH</td>
+            <td>REDIS_ENCODING_ZIPLIST</td>
+            <td>使用压缩列表实现的哈希对象</td>
+        </tr>
+        <tr>
+            <td>REDIS_HASH</td>
+            <td>REDIS_ENCODING_HT</td>
+            <td>使用字典实现的哈希对象</td>
+        </tr>
+        <tr>
+            <td>REDIS_SET</td>
+            <td>REDIS_ENCODING_INTSET</td>
+            <td>使用整数集合实现的集合对象</td>
+        </tr>
+        <tr>
+            <td>REDIS_SET</td>
+            <td>REDIS_ENCODING_HT</td>
+            <td>使用字典实现的集合对象</td>
+        </tr>
+        <tr>
+            <td>REDIS_ZSET</td>
+            <td>REDIS_ENCODING_ZIPLIST</td>
+            <td>使用压缩链表实现的有序集合对象</td>
+        </tr>
+        <tr>
+            <td>REDIS_ZSET</td>
+            <td>REDIS_ENCODING_SKIPLIST</td>
+            <td>使用跳跃列表和字典实现的有序集合对象</td>
+        </tr>
+    </tbody>
+</table></div>
+<p>LRU时间主要是为了根据lru的淘汰策略</p>
+<p>refcount是记录引用次数，引用为0时就是可以回收的对象，此外，整数对象是共享的</p>
+<h3 id="string">String</h3>
+<h4 id="底层实现">底层实现</h4>
+<p>SDS(Simple Dynamic String) 结构体</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">SDS</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">T</span> <span class="n">capacity</span><span class="p">;</span><span class="c1">// 分配的数组容量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">T</span> <span class="n">len</span><span class="p">;</span> <span class="c1">// 实际字符串数组长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">byte</span> <span class="n">flags</span><span class="p">;</span> <span class="c1">// 特殊标识位，不理睬它
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">byte</span><span class="p">[]</span> <span class="n">content</span><span class="p">;</span> <span class="c1">// 数组内容
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>使用了泛型T，在字符串短的时候，可以采用byte和short表示，节省内存。</p>
+<p>capacity变量记录字符串的分配的数组容量，不容易导致字符串操作溢出分配的内存区，比如合并之类的操作可以根据容量，避免字符串溢出分配的大小</p>
+<p>len记录字符串实际长度，在C语言里面要获取字符串长度需要逐个遍历，O(N)的复杂度</p>
+<p><strong>存储方式</strong></p>
+<p><a class="link" href="#redisobject" >对象头说明</a></p>
+<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/image-20220527162600609.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220527162600609"
+	
+	
+></p>
+<p>存储主要有两种方式：embstr和raw，在字符串长度超过44时采用raw形式存储。</p>
+<p>embstr，申请一次内存最大64个字节，将RedisObject对象与SDS对象连续存放在一起，所以，RedisObject占用了16个字节（64位系统一个字节8</p>
+<p>bits），SDS结构体减去content占用3个字节，并且content末尾有个结束符\0,所以在超过44bytes后，就需要将存储转换为raw。</p>
+<p>raw，申请两次内存（分配内存的单位都是2 4 8 &hellip; 64），两个对象在内存里面不连续。</p>
+<p><strong>扩容策略：小于1M 容量加倍再判断 超过1M，每次1M</strong></p>
+<h4 id="使用场景">使用场景</h4>
+<p>存储的基本都是 整型、字符串，一般用来记录数据量，重复取用的字符串，比如访问量，验证码（不需要存入数据库）之类</p>
+<h3 id="list">List</h3>
+<h4 id="底层实现-1">底层实现</h4>
+<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/image-20220529192133424.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220529192133424"
+	
+	
+></p>
+<p><a class="link" href="#zipList" >ZipList</a>	<a class="link" href="#quickList" >QuickList</a></p>
+<p>元素比较少的时候直接使用ZipList，较多时，使用QuickList</p>
+<h4 id="使用场景-1">使用场景</h4>
+<p>要获取list里面的元素是很慢的，但是插入删除（头尾）一个元素是很快的。适合当作队列堆栈来使用。</p>
+<p>作为延时队列之类的</p>
+<h3 id="hash">Hash</h3>
+<h4 id="底层实现-2">底层实现</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">dict</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="p">...</span>
+</span></span><span class="line"><span class="cl">	<span class="n">dictht</span> <span class="n">ht</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="c1">// 两个hashtable
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">dictht</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">dictEntry</span><span class="o">**</span> <span class="n">table</span><span class="p">;</span> <span class="c1">// 二维
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kt">long</span> <span class="n">size</span><span class="p">;</span> <span class="c1">// 第一维数组的长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kt">long</span> <span class="n">used</span><span class="p">;</span> <span class="c1">// hash表中的元素个数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">dictEntry</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">void</span><span class="o">*</span> <span class="n">key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">void</span><span class="o">*</span> <span class="n">val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">dictEntry</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span> <span class="c1">// 链接下一个entry
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>dict结构体中有两个 hashtable，正常是只有一个有值的，但是dict扩容缩容的时候，重新分配hashtable，然后渐进式搬迁。</p>
+<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/image-20220530215456164.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220530215456164"
+	
+	
+></p>
+<p>dictht二维，存储链表的头节点，链表则是具体的内容，因为是采用链地址（分桶）的方式解决hash冲突</p>
+<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/image-20220531122451482.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220531122451482"
+	
+	
+></p>
+<p><strong>由于dict的扩容耗时大，O（N），采用渐进式rehash</strong></p>
+<p>给ht[1]分配空间，维持一个索引计数器rehashidx</p>
+<p>在rehash期间，对dict字典执行的增删改查操作，顺带将ht[0]中rehashidx上的桶链迁移到ht[1]</p>
+<p>同时还有定时任务</p>
+<p>查找过程：根据hash函数，找到在哪个桶上，遍历这个桶</p>
+<p>hash函数：siphash</p>
+<p><strong>hash攻击</strong></p>
+<h4 id="使用场景-2">使用场景</h4>
+<p>跟Java hashmap差不多</p>
+<h3 id="set">Set</h3>
+<h4 id="set-1">Set</h4>
+<p>特殊的dict，value都是null</p>
+<p>底层是字典和整数集合</p>
+<p>set集合只包含整数，并且数量不多时，使用整数集合实现，不预留空间 类似数组  升级int16-&gt;int32-&gt;int64</p>
+<h4 id="zset">ZSet</h4>
+<p><a class="link" href="#skiplist" >SkipList</a></p>
+<p><a class="link" href="#hash" >Hash</a></p>
+<h3 id="ziplist">ZipList</h3>
+<h4 id="底层实现-3">底层实现</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">ziplist</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">int32</span> <span class="n">zlbytes</span><span class="p">;</span> <span class="c1">// 整个压缩列表占用字节数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">int32</span> <span class="n">zltail_offset</span><span class="p">;</span> <span class="c1">// 最后一个元素距离压缩列表起始位置的偏移量，用于快速定位到最后一个节点，倒着遍历
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">int16</span> <span class="n">zllength</span><span class="p">;</span> <span class="c1">// 元素个数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">T</span><span class="p">[]</span> <span class="n">entries</span><span class="p">;</span> <span class="c1">// 元素内容列表，挨个挨个紧凑存储
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">int8</span> <span class="n">zlend</span><span class="p">;</span> <span class="c1">// 标志压缩列表的结束，值恒为0xFF
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">entry</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span><span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span> <span class="n">prevlen</span><span class="p">;</span> <span class="c1">// 前一个entry 的字节长度，倒着遍历，快速定位，长度小于254 一个字节 大于等于 5个字节（第一个字节标志位0xFE）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kt">int</span><span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span> <span class="n">encoding</span><span class="p">;</span> <span class="c1">// 元素类型编码，有一定的规则设计
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">optional</span> <span class="n">byte</span><span class="p">[]</span> <span class="n">content</span><span class="p">;</span> <span class="c1">// 元素内容 可选（比较小的整数直接放入了encoding后面）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/image-20220529200937366.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220529200937366"
+	
+	
+></p>
+<p>ZipList没有冗余空间，每一次插入都需要用realloc拓展内存。有可能直接在原来的地址上增加，也有可能重新分配内存，拷贝过去，取决于内存分配器的算法，所以不适合存储太多。</p>
+<p><strong>级联更新问题</strong></p>
+<p>prevlen记录了前一元素的字节长度，如果前一元素长度变动使得prevlen范围超过254，就可能需要扩大/缩小prevlen的字节数，若是变动导致其他元素变动也超过这个范围，就会发生级联更新</p>
+<p>redis默认不处理需要缩小prevlen的情况，直接使用5个字节表示一个字节的内容</p>
+<h3 id="quicklist">QuickList</h3>
+<h4 id="底层实现-4">底层实现</h4>
+<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/image-20220529225436379.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220529225436379"
+	
+	
+></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">ziplist_compressed</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">int32</span> <span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">byte</span><span class="p">[]</span> <span class="n">compressed_data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">quicklistNode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">quicklistNode</span><span class="o">*</span> <span class="n">prev</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">quicklistNode</span><span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">ziplist</span><span class="o">*</span> <span class="n">zl</span><span class="p">;</span> <span class="c1">// 指向压缩列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">int32</span> <span class="n">size</span><span class="p">;</span> <span class="c1">// ziplist 的字节总数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">int16</span> <span class="n">count</span><span class="p">;</span> <span class="c1">// ziplist 中的元素数量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">int2</span> <span class="n">encoding</span><span class="p">;</span> <span class="c1">// 存储形式2bit，原生字节数组还是LZF 压缩存储
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">quicklist</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">quicklistNode</span><span class="o">*</span> <span class="n">head</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">quicklistNode</span><span class="o">*</span> <span class="n">tail</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">long</span> <span class="n">count</span><span class="p">;</span> <span class="c1">// 元素总数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kt">int</span> <span class="n">nodes</span><span class="p">;</span> <span class="c1">// ziplist 节点的个数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kt">int</span> <span class="n">compressDepth</span><span class="p">;</span> <span class="c1">// LZF 算法压缩深度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>quicklist默认单个ziplist长度位8k字节，超过就新建一个ziplist，这个长度由参数list-max-ziplist-size决定。</p>
+<p>结构体ziplist_compressed是多个ziplist经过LZF压缩算法后得到的，默认的压缩深度为0，也就是不压缩，可由配置参数list-compress-depth决定。</p>
+<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/image-20220529232607276.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220529232607276"
+	
+	
+></p>
+<h3 id="listpack">ListPack</h3>
+<p>redis5.0引入，对ziplist的改进，目前发行版6.2还未完全替代，hash set在最新发布的代码已经替换成listpack，空间换时间</p>
+<h4 id="底层实现-5">底层实现</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">listpack</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">int32</span> <span class="n">total_bytes</span><span class="p">;</span><span class="c1">// 占用的总字节数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">int16</span> <span class="n">size</span><span class="p">;</span> <span class="c1">// 元素个数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">T</span><span class="p">[]</span> <span class="n">entries</span><span class="p">;</span> <span class="c1">// 紧凑排列的元素列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">int8</span> <span class="n">end</span><span class="p">;</span> <span class="c1">// 同zlend 一样，恒为0xFF
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">lpentry</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span><span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span> <span class="n">encoding</span><span class="p">;</span> <span class="c1">// 编码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">optional</span> <span class="n">byte</span><span class="p">[]</span> <span class="n">content</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span><span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span> <span class="n">length</span><span class="p">;</span> <span class="c1">// 当前元素的长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p>相较于ziplist取消zltail_offset，可以根据total_bytes 跟 最后一个元素的长度 推断出来（根据编码解码可以得知最后一个元素的位置）</p>
+<p><strong>对于级联更新，因为元素存储的是当前元素的长度，并不会影响到其他元素</strong></p>
+<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/image-20220531154242176.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220531154242176"
+	
+	
+></p>
+<h3 id="skiplist">SkipList</h3>
+<h4 id="底层实现-6">底层实现</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">zslnode</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">string</span> <span class="n">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">double</span> <span class="n">score</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">zslnode</span><span class="o">*</span><span class="p">[]</span> <span class="n">forwards</span><span class="p">;</span>   <span class="c1">// 多层连接指针
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">zslnode</span><span class="o">*</span> <span class="n">backward</span><span class="p">;</span> <span class="c1">// 回溯指针
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">zsl</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">zslnode</span><span class="o">*</span> <span class="n">header</span><span class="p">;</span> <span class="c1">// 跳跃列表头指针
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kt">int</span> <span class="n">maxLevel</span><span class="p">;</span> <span class="c1">// 跳跃列表当前的最高层
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">zslnode</span><span class="o">*&gt;</span> <span class="n">ht</span><span class="p">;</span> <span class="c1">// hash 结构的所有键值对
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">zslforward</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">zslnode</span><span class="o">*</span> <span class="n">item</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">span</span><span class="p">;</span> <span class="c1">// 跨度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></div><p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/image-20220531162752590.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220531162752590"
+	
+	
+></p>
+<p>详细点击：<a class="link" href="http://zhangtielei.com/posts/blog-redis-skiplist.html"  target="_blank" rel="noopener"
+    >skiplist详解</a></p>
+<p>通俗了说，每增加一个节点，随机产生一个层数，如此，插入操作只需要修改节点前后指针（比如小于前一个节点，将指向前一个节点的指定都指向插入节点），每一个层级跨越一定的节点数（是按照层数，比如4层，上面的指针每次就跨越4个节点？？）</p>
+<p><strong>查找过程</strong></p>
+<p>找到比我小的最后一个元素，然后降一个层级继续查找。例子，如下图</p>
+<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/image-20220531225001982.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20220531225001982"
+	
+	
+></p>
+<ul>
+<li>插入过程  &hellip;</li>
+<li>删除过程  &hellip;</li>
+<li>更新过程  &hellip;</li>
+</ul>
+<p>计算一个元素排名的时候，将经过的节点span加起来，就能得到排名值</p>
+<h3 id="raw">Raw</h3>
+<p>主要是在redis stream里面用于存储消息队列</p>
+<h2 id="数据库功能">数据库功能</h2>
+<h2 id="集群分布式功能">集群分布式功能</h2>
+<h2 id="拓展模块">拓展模块</h2>
+<h2 id="注意点">注意点</h2>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/redis/">Redis</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script src='//unpkg.com/@waline/client@v2/dist/waline.js'></script>
+<link href='//unpkg.com/@waline/client@v2/dist/waline.css' rel='stylesheet'/>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        --waline-font-size: var(--article-font-size);
+    }
+    .waline-container .wl-count {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    Waline.init({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://unpkg.com/@waline/emojis@1.0.1/qq","https://unpkg.com/@waline/emojis@1.0.1/bilibili","https://unpkg.com/@waline/emojis@1.0.1/tieba","https://unpkg.com/@waline/emojis@1.0.1/alus","https://unpkg.com/@waline/emojis@1.0.1/weibo"],"lang":"zh-CN","locale":{"admin":"Admin"},"requiredMeta":["name","email"],"serverURL":"https://comments.dmme2024.xyz/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+    
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    <section class="copyright">
+        &copy; 
+        
+        2022&nbsp;
+        <a href="https://dmme2024.xyz/">Dmme&#39;s blog</a> 
+        <br><a id="days">0</a>天，
+        总共4.5k字，共 4篇文章</br><span><p></p>
+    </section>
+    
+    <section class="powerby">
+        
+            感谢您的浏览！ <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+
+    <script>
+        var s1 = '2022-06-01';
+        s1 = new Date(s1.replace(/-/g, "/"));
+        s2 = new Date();
+        var days = s2.getTime() - s1.getTime();
+        var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+        document.getElementById('days').innerHTML = number_of_days;
+    </script>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#基本数据结构">基本数据结构</a>
+      <ol>
+        <li><a href="#redisobject">RedisObject</a></li>
+        <li><a href="#string">String</a>
+          <ol>
+            <li><a href="#底层实现">底层实现</a></li>
+            <li><a href="#使用场景">使用场景</a></li>
+          </ol>
+        </li>
+        <li><a href="#list">List</a>
+          <ol>
+            <li><a href="#底层实现-1">底层实现</a></li>
+            <li><a href="#使用场景-1">使用场景</a></li>
+          </ol>
+        </li>
+        <li><a href="#hash">Hash</a>
+          <ol>
+            <li><a href="#底层实现-2">底层实现</a></li>
+            <li><a href="#使用场景-2">使用场景</a></li>
+          </ol>
+        </li>
+        <li><a href="#set">Set</a>
+          <ol>
+            <li><a href="#set-1">Set</a></li>
+            <li><a href="#zset">ZSet</a></li>
+          </ol>
+        </li>
+        <li><a href="#ziplist">ZipList</a>
+          <ol>
+            <li><a href="#底层实现-3">底层实现</a></li>
+          </ol>
+        </li>
+        <li><a href="#quicklist">QuickList</a>
+          <ol>
+            <li><a href="#底层实现-4">底层实现</a></li>
+          </ol>
+        </li>
+        <li><a href="#listpack">ListPack</a>
+          <ol>
+            <li><a href="#底层实现-5">底层实现</a></li>
+          </ol>
+        </li>
+        <li><a href="#skiplist">SkipList</a>
+          <ol>
+            <li><a href="#底层实现-6">底层实现</a></li>
+          </ol>
+        </li>
+        <li><a href="#raw">Raw</a></li>
+      </ol>
+    </li>
+    <li><a href="#数据库功能">数据库功能</a></li>
+    <li><a href="#集群分布式功能">集群分布式功能</a></li>
+    <li><a href="#拓展模块">拓展模块</a></li>
+    <li><a href="#注意点">注意点</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+
+    </body>
+</html>

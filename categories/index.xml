@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Categories on Dmme&#39;s blog</title>
+        <link>https://www.dmme2024.xyz/categories/</link>
+        <description>Recent content in Categories on Dmme&#39;s blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Wed, 08 Jun 2022 00:22:03 +0800</lastBuildDate><atom:link href="https://www.dmme2024.xyz/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>源码学习</title>
+        <link>https://www.dmme2024.xyz/categories/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/</link>
+        <pubDate>Wed, 08 Jun 2022 00:22:03 +0800</pubDate>
+        
+        <guid>https://www.dmme2024.xyz/categories/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/</guid>
+        <description>&lt;img src="https://www.dmme2024.xyz/categories/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/coding-g369bc1259_1280.jpg" alt="Featured image of post 源码学习" /&gt;</description>
+        </item>
+        <item>
+        <title>阅读笔记</title>
+        <link>https://www.dmme2024.xyz/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</link>
+        <pubDate>Sun, 05 Jun 2022 00:22:03 +0800</pubDate>
+        
+        <guid>https://www.dmme2024.xyz/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid>
+        <description>&lt;img src="https://www.dmme2024.xyz/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/zubeydenazlier-3.jpg" alt="Featured image of post 阅读笔记" /&gt;</description>
+        </item>
+        <item>
+        <title>技术日记</title>
+        <link>https://www.dmme2024.xyz/categories/%E6%8A%80%E6%9C%AF%E6%97%A5%E8%AE%B0/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://www.dmme2024.xyz/categories/%E6%8A%80%E6%9C%AF%E6%97%A5%E8%AE%B0/</guid>
+        <description>&lt;img src="https://www.dmme2024.xyz/categories/%E6%8A%80%E6%9C%AF%E6%97%A5%E8%AE%B0/jishuriji_cover.jpg" alt="Featured image of post 技术日记" /&gt;</description>
+        </item>
+        <item>
+        <title>折腾日记</title>
+        <link>https://www.dmme2024.xyz/categories/%E6%8A%98%E8%85%BE%E6%97%A5%E8%AE%B0/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://www.dmme2024.xyz/categories/%E6%8A%98%E8%85%BE%E6%97%A5%E8%AE%B0/</guid>
+        <description>&lt;img src="https://www.dmme2024.xyz/categories/%E6%8A%98%E8%85%BE%E6%97%A5%E8%AE%B0/man-g9348aedbc_1280.jpg" alt="Featured image of post 折腾日记" /&gt;</description>
+        </item>
+        
+    </channel>
+</rss>
