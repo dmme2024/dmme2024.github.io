@@ -267,7 +267,7 @@
   <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
 </svg>
                 <time class="article-words">
-                    544字
+                    669字
                 </time>
             </div>
         
@@ -349,7 +349,12 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">String</span> <span class="n">res</span> <span class="o">=</span> <span class="n">userDao</span><span class="o">.</span><span class="na">queryUserName</span><span class="o">(</span><span class="s">&#34;10001&#34;</span><span class="o">);</span> <span class="c1">// 执行方法 : 代理类通过InvocationHandler 执行
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;测试结果：{}&#34;</span><span class="o">,</span> <span class="n">res</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div>
+</span></span></code></pre></div><p><strong>分析</strong></p>
+<ul>
+<li>代理模式：原对象Mapper接口，MapperProxy代理实现具体方法，将接口定义和执行方法解耦；</li>
+<li>工厂模式：MapperProxyFactory代理工厂，原Mapper接口没有具体的实现类，MapperProxyFactory为其生成代理实例；</li>
+</ul>
+
 </section>
 
 
@@ -429,6 +434,31 @@
 </article>
 
             
+                
+<article class="">
+    <a href="/p/%E6%89%8B%E6%92%B8mybatis-04-%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E8%A7%A3%E6%9E%90%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/">
+        
+        
+        
+        <div class="article-image">
+            
+            <img src="/img/default-related-content.png" loading="lazy" 
+            data-key="" data-hash="" 
+            style="opacity: 0.3;"/>
+        </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">手撸Mybatis-04-数据源的解析、创建和使用</h2>
+            
+            <footer class="article-time">
+                <time datetime=''>Jan 01, 0001</time>
+            </footer>
+        </div>
+    </a>
+</article>
+
+            
         </div>
     </div>
 </aside>
@@ -476,6 +506,8 @@
     
         
     
+        
+    
 
     <section class="copyright">
         &copy; 
@@ -483,7 +515,7 @@
         2022&nbsp;
         <a href="https://dmme2024.xyz/">Dmme&#39;s blog</a> 
         <br><a id="days">0</a>天，
-        总共4.5k字，共 4篇文章</br><span><p></p>
+        总共4.6k字，共 5篇文章</br><span><p></p>
     </section>
     
     <section class="powerby">

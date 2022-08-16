@@ -267,7 +267,7 @@
   <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
 </svg>
                 <time class="article-words">
-                    734字
+                    782字
                 </time>
             </div>
         
@@ -297,7 +297,7 @@
 <p><strong>MapperRegistry类</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Java" data-lang="Java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MapperRegistry</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// 存储已经注册的mapper接口 的 proxy工厂
+</span></span><span class="line"><span class="cl">    <span class="c1">// 存储已经注册的mapper接口的proxy工厂
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 使用时，每个线程都创建一个接口的proxy实例？？？
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;?&gt;,</span><span class="n">MapperProxyFactory</span><span class="o">&lt;?&gt;&gt;</span> <span class="n">knownMappers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
 </span></span><span class="line"><span class="cl">
@@ -411,6 +411,11 @@
 </span></span></code></pre></div><p><strong>疑问</strong></p>
 <p>注册机里面存放的是ProxyFactory，每一次使用时都需要new一个Proxy实例？？？</p>
 <p>是如何跟Spring结合起来的</p>
+<p><strong>总结</strong></p>
+<ul>
+<li>MapperRegistry扫描包生成MapperProxyFactory，存放在Map中</li>
+<li>SqlSession</li>
+</ul>
 
 </section>
 
@@ -491,6 +496,31 @@
 </article>
 
             
+                
+<article class="">
+    <a href="/p/%E6%89%8B%E6%92%B8mybatis-04-%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E8%A7%A3%E6%9E%90%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/">
+        
+        
+        
+        <div class="article-image">
+            
+            <img src="/img/default-related-content.png" loading="lazy" 
+            data-key="" data-hash="" 
+            style="opacity: 0.3;"/>
+        </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">手撸Mybatis-04-数据源的解析、创建和使用</h2>
+            
+            <footer class="article-time">
+                <time datetime=''>Jan 01, 0001</time>
+            </footer>
+        </div>
+    </a>
+</article>
+
+            
         </div>
     </div>
 </aside>
@@ -517,6 +547,8 @@
     
         
     
+        
+    
 
     <section class="copyright">
         &copy; 
@@ -524,7 +556,7 @@
         2022&nbsp;
         <a href="https://dmme2024.xyz/">Dmme&#39;s blog</a> 
         <br><a id="days">0</a>天，
-        总共4.5k字，共 4篇文章</br><span><p></p>
+        总共4.6k字，共 5篇文章</br><span><p></p>
     </section>
     
     <section class="powerby">
