@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='设计图 工程结构 mybatis-step-03 └── src ├── main │ └── java │ └── cn.bugstack.mybatis │ ├── binding │ │ ├── MapperMethod.java // 执行具体操作 │ │ ├── MapperProxy.java // 代理类 │ │ ├── MapperProxyFactory.java // 代理工厂 │ │ └──'><title>手撸Mybatis-03-XML的解析</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='设计图 部分代码'><title>手撸Mybatis-03-XML的解析</title>
 
 <link rel='canonical' href='https://www.dmme2024.xyz/p/%E6%89%8B%E6%92%B8mybatis-03-xml%E7%9A%84%E8%A7%A3%E6%9E%90/'>
 
 <link rel="stylesheet" href="/scss/style.min.66f583f5c4864b4c5d78afe672837f369e92b61febe85642fe979a2ad8fa1f38.css"><meta property='og:title' content='手撸Mybatis-03-XML的解析'>
-<meta property='og:description' content='设计图 工程结构 mybatis-step-03 └── src ├── main │ └── java │ └── cn.bugstack.mybatis │ ├── binding │ │ ├── MapperMethod.java // 执行具体操作 │ │ ├── MapperProxy.java // 代理类 │ │ ├── MapperProxyFactory.java // 代理工厂 │ │ └──'>
+<meta property='og:description' content='设计图 部分代码'>
 <meta property='og:url' content='https://www.dmme2024.xyz/p/%E6%89%8B%E6%92%B8mybatis-03-xml%E7%9A%84%E8%A7%A3%E6%9E%90/'>
 <meta property='og:site_name' content='Dmme&#39;s blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='手撸Mybatis' /><meta property='article:tag' content='Mybatis' />
 <meta name="twitter:title" content="手撸Mybatis-03-XML的解析">
-<meta name="twitter:description" content="设计图 工程结构 mybatis-step-03 └── src ├── main │ └── java │ └── cn.bugstack.mybatis │ ├── binding │ │ ├── MapperMethod.java // 执行具体操作 │ │ ├── MapperProxy.java // 代理类 │ │ ├── MapperProxyFactory.java // 代理工厂 │ │ └──">
+<meta name="twitter:description" content="设计图 部分代码">
     <link rel="shortcut icon" href="/img/favicon.png" />
 
     </head>
@@ -268,59 +268,18 @@
     <section class="article-content">
     
     
-    <p><strong>设计图</strong></p>
-<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/mybatis/image-20220612151357852.png"
+    <h2 id="设计图"><strong>设计图</strong></h2>
+<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/mybatis/202208182229890.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20220612151357852"
+		alt="image-20220818222921753"
 	
 	
 ></p>
-<p><strong>工程结构</strong></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Java" data-lang="Java"><span class="line"><span class="cl"><span class="n">mybatis</span><span class="o">-</span><span class="n">step</span><span class="o">-</span><span class="n">03</span>
-</span></span><span class="line"><span class="cl"><span class="err">└──</span> <span class="n">src</span>
-</span></span><span class="line"><span class="cl">    <span class="err">├──</span> <span class="n">main</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>   <span class="err">└──</span> <span class="n">java</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>       <span class="err">└──</span> <span class="n">cn</span><span class="o">.</span><span class="na">bugstack</span><span class="o">.</span><span class="na">mybatis</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>           <span class="err">├──</span> <span class="n">binding</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>           <span class="err">│</span>   <span class="err">├──</span> <span class="n">MapperMethod</span><span class="o">.</span><span class="na">java</span> <span class="c1">// 执行具体操作
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">│</span>           <span class="err">│</span>   <span class="err">├──</span> <span class="n">MapperProxy</span><span class="o">.</span><span class="na">java</span> <span class="c1">// 代理类
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">│</span>           <span class="err">│</span>   <span class="err">├──</span> <span class="n">MapperProxyFactory</span><span class="o">.</span><span class="na">java</span> <span class="c1">// 代理工厂
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">│</span>           <span class="err">│</span>   <span class="err">└──</span> <span class="n">MapperRegistry</span><span class="o">.</span><span class="na">java</span> <span class="c1">// Mapper注册机，扫描Mapper接口
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">│</span>           <span class="err">├──</span> <span class="n">builder</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>           <span class="err">│</span>   <span class="err">├──</span> <span class="n">xml</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>           <span class="err">│</span>   <span class="err">│</span>   <span class="err">└──</span> <span class="n">XMLConfigBuilder</span><span class="o">.</span><span class="na">java</span> <span class="c1">// 解析Mapper.xml 将sql封装成MappedStatement
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">│</span>           <span class="err">│</span>   <span class="err">└──</span> <span class="n">BaseBuilder</span><span class="o">.</span><span class="na">java</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>           <span class="err">├──</span> <span class="n">io</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>           <span class="err">│</span>   <span class="err">└──</span> <span class="n">Resources</span><span class="o">.</span><span class="na">java</span> <span class="c1">// IO读取文件
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">│</span>           <span class="err">├──</span> <span class="n">mapping</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>           <span class="err">│</span>   <span class="err">├──</span> <span class="n">MappedStatement</span><span class="o">.</span><span class="na">java</span> <span class="c1">// 封装的SQL
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">│</span>           <span class="err">│</span>   <span class="err">└──</span> <span class="n">SqlCommandType</span><span class="o">.</span><span class="na">java</span> <span class="c1">// Enum
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">│</span>           <span class="err">└──</span> <span class="n">session</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>               <span class="err">├──</span> <span class="n">defaults</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>               <span class="err">│</span>   <span class="err">├──</span> <span class="n">DefaultSqlSession</span><span class="o">.</span><span class="na">java</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>               <span class="err">│</span>   <span class="err">└──</span> <span class="n">DefaultSqlSessionFactory</span><span class="o">.</span><span class="na">java</span>
-</span></span><span class="line"><span class="cl">    <span class="err">│</span>               <span class="err">├──</span> <span class="n">Configuration</span><span class="o">.</span><span class="na">java</span> <span class="c1">// 配置类 里面有Mapper注册机 封装好的MappedStatement
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">│</span>               <span class="err">├──</span> <span class="n">SqlSession</span><span class="o">.</span><span class="na">java</span> <span class="c1">// 将SQL提交给数据库？
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">│</span>               <span class="err">├──</span> <span class="n">SqlSessionFactory</span><span class="o">.</span><span class="na">java</span> <span class="c1">// 工厂类
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">│</span>               <span class="err">└──</span> <span class="n">SqlSessionFactoryBuilder</span><span class="o">.</span><span class="na">java</span> <span class="c1">// 用Configuration初始化SqlSessionFactory
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="err">└──</span> <span class="n">test</span> <span class="c1">// 测试
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="err">├──</span> <span class="n">java</span>
-</span></span><span class="line"><span class="cl">        <span class="err">│</span>   <span class="err">└──</span> <span class="n">cn</span><span class="o">.</span><span class="na">bugstack</span><span class="o">.</span><span class="na">mybatis</span><span class="o">.</span><span class="na">test</span><span class="o">.</span><span class="na">dao</span>
-</span></span><span class="line"><span class="cl">        <span class="err">│</span>       <span class="err">├──</span> <span class="n">dao</span>
-</span></span><span class="line"><span class="cl">        <span class="err">│</span>       <span class="err">│</span>   <span class="err">└──</span> <span class="n">IUserDao</span><span class="o">.</span><span class="na">java</span>
-</span></span><span class="line"><span class="cl">        <span class="err">│</span>       <span class="err">├──</span> <span class="n">po</span>
-</span></span><span class="line"><span class="cl">        <span class="err">│</span>       <span class="err">│</span>   <span class="err">└──</span> <span class="n">User</span><span class="o">.</span><span class="na">java</span>
-</span></span><span class="line"><span class="cl">        <span class="err">│</span>       <span class="err">└──</span> <span class="n">ApiTest</span><span class="o">.</span><span class="na">java</span>
-</span></span><span class="line"><span class="cl">        <span class="err">└──</span> <span class="n">resources</span>
-</span></span><span class="line"><span class="cl">            <span class="err">├──</span> <span class="n">mapper</span>
-</span></span><span class="line"><span class="cl">            <span class="err">│</span>   <span class="err">└──</span><span class="n">User_Mapper</span><span class="o">.</span><span class="na">xml</span>
-</span></span><span class="line"><span class="cl">            <span class="err">└──</span> <span class="n">mybatis</span><span class="o">-</span><span class="n">config</span><span class="o">-</span><span class="n">datasource</span><span class="o">.</span><span class="na">xml</span>
-</span></span></code></pre></div><p><strong>分析</strong></p>
-<p>XMLConfigBuilder解析Mapper.xml 跟 config.xml，将SQL语句转换为MappedStatement，具体分析见下期文章。</p>
+<p><strong>部分代码</strong></p>
 
 </section>
 
@@ -403,7 +362,7 @@
             
                 
 <article class="">
-    <a href="/p/%E6%89%8B%E6%92%B8mybatis-04-%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E8%A7%A3%E6%9E%90%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/">
+    <a href="/p/%E6%89%8B%E6%92%B8mybatis-03-xml%E7%9A%84%E8%A7%A3%E6%9E%90/">
         
         
         
@@ -416,7 +375,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">手撸Mybatis-04-数据源的解析、创建和使用</h2>
+            <h2 class="article-title">手撸Mybatis-03-XML的解析</h2>
             
             <footer class="article-time">
                 <time datetime=''>Jan 01, 0001</time>
@@ -582,7 +541,38 @@
             >
 
             </main>
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#设计图"><strong>设计图</strong></a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
         </div>
         <script 

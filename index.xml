@@ -694,22 +694,23 @@
 </description>
         </item>
         <item>
-        <title>手撸Mybatis-04-数据源的解析、创建和使用</title>
-        <link>https://www.dmme2024.xyz/p/%E6%89%8B%E6%92%B8mybatis-04-%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E8%A7%A3%E6%9E%90%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/</link>
+        <title>手撸Mybatis-03-XML的解析</title>
+        <link>https://www.dmme2024.xyz/p/%E6%89%8B%E6%92%B8mybatis-03-xml%E7%9A%84%E8%A7%A3%E6%9E%90/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://www.dmme2024.xyz/p/%E6%89%8B%E6%92%B8mybatis-04-%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E8%A7%A3%E6%9E%90%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/</guid>
-        <description>&lt;h2 id=&#34;解析&#34;&gt;解析&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&#34;https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/mybatis/mybatis04.png&#34;
+        <guid>https://www.dmme2024.xyz/p/%E6%89%8B%E6%92%B8mybatis-03-xml%E7%9A%84%E8%A7%A3%E6%9E%90/</guid>
+        <description>&lt;h2 id=&#34;设计图&#34;&gt;&lt;strong&gt;设计图&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/mybatis/202208182229890.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;mybatis04&#34;
+		alt=&#34;image-20220818222921753&#34;
 	
 	
 &gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;部分代码&lt;/strong&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
