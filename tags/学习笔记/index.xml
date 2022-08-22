@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>源码学习 on Dmme&#39;s blog</title>
-        <link>https://www.dmme2024.xyz/categories/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/</link>
-        <description>Recent content in 源码学习 on Dmme&#39;s blog</description>
+        <title>学习笔记 on Dmme&#39;s blog</title>
+        <link>https://www.dmme2024.xyz/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+        <description>Recent content in 学习笔记 on Dmme&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 12 Jun 2022 00:22:03 +0800</lastBuildDate><atom:link href="https://www.dmme2024.xyz/categories/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 12 Jun 2022 00:22:03 +0800</lastBuildDate><atom:link href="https://www.dmme2024.xyz/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>手撸Mybatis-03-XML的解析</title>
         <link>https://www.dmme2024.xyz/p/%E6%89%8B%E6%92%B8mybatis-03-xml%E7%9A%84%E8%A7%A3%E6%9E%90/</link>
         <pubDate>Sun, 12 Jun 2022 00:22:03 +0800</pubDate>

@@ -6,7 +6,15 @@
         <description>Recent content in Categories on Dmme&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 12 Jun 2022 00:22:03 +0800</lastBuildDate><atom:link href="https://www.dmme2024.xyz/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 22 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://www.dmme2024.xyz/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>技术日记</title>
+        <link>https://www.dmme2024.xyz/categories/%E6%8A%80%E6%9C%AF%E6%97%A5%E8%AE%B0/</link>
+        <pubDate>Mon, 22 Aug 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://www.dmme2024.xyz/categories/%E6%8A%80%E6%9C%AF%E6%97%A5%E8%AE%B0/</guid>
+        <description>&lt;img src="https://www.dmme2024.xyz/categories/%E6%8A%80%E6%9C%AF%E6%97%A5%E8%AE%B0/jishuriji_cover.jpg" alt="Featured image of post 技术日记" /&gt;</description>
+        </item>
+        <item>
         <title>源码学习</title>
         <link>https://www.dmme2024.xyz/categories/%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/</link>
         <pubDate>Sun, 12 Jun 2022 00:22:03 +0800</pubDate>
@@ -21,14 +29,6 @@
         
         <guid>https://www.dmme2024.xyz/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid>
         <description>&lt;img src="https://www.dmme2024.xyz/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/zubeydenazlier-3.jpg" alt="Featured image of post 阅读笔记" /&gt;</description>
-        </item>
-        <item>
-        <title>技术日记</title>
-        <link>https://www.dmme2024.xyz/categories/%E6%8A%80%E6%9C%AF%E6%97%A5%E8%AE%B0/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://www.dmme2024.xyz/categories/%E6%8A%80%E6%9C%AF%E6%97%A5%E8%AE%B0/</guid>
-        <description>&lt;img src="https://www.dmme2024.xyz/categories/%E6%8A%80%E6%9C%AF%E6%97%A5%E8%AE%B0/jishuriji_cover.jpg" alt="Featured image of post 技术日记" /&gt;</description>
         </item>
         <item>
         <title>折腾日记</title>
