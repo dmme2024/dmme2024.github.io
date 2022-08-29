@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='设计图 工程结构 small-mybatis-04 ├── pom.xml └── src ├── main │ ├── java │ │ └── com │ │ └── dmme │ │ └── mybatis │ │ ├── binding │ │ │ ├── MapperMethod.java │ │ │ ├── MapperProxy.java │ │ │ ├── MapperProxyFactory.java'><title>手撸Mybatis-04-数据源的解析、创建和使用</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='目的 解析Config.xml 线程池连接数据库操作，增加事务操作 设计图 工程结构 small-mybatis-04 ├── pom.xml └── src ├── main │ ├── java │ │ └── com │ │ └── dmme │ │'><title>手撸Mybatis-04-数据源的解析、创建和使用</title>
 
 <link rel='canonical' href='https://www.dmme2024.xyz/p/%E6%89%8B%E6%92%B8mybatis-04-%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E8%A7%A3%E6%9E%90%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/'>
 
 <link rel="stylesheet" href="/scss/style.min.66f583f5c4864b4c5d78afe672837f369e92b61febe85642fe979a2ad8fa1f38.css"><meta property='og:title' content='手撸Mybatis-04-数据源的解析、创建和使用'>
-<meta property='og:description' content='设计图 工程结构 small-mybatis-04 ├── pom.xml └── src ├── main │ ├── java │ │ └── com │ │ └── dmme │ │ └── mybatis │ │ ├── binding │ │ │ ├── MapperMethod.java │ │ │ ├── MapperProxy.java │ │ │ ├── MapperProxyFactory.java'>
+<meta property='og:description' content='目的 解析Config.xml 线程池连接数据库操作，增加事务操作 设计图 工程结构 small-mybatis-04 ├── pom.xml └── src ├── main │ ├── java │ │ └── com │ │ └── dmme │ │'>
 <meta property='og:url' content='https://www.dmme2024.xyz/p/%E6%89%8B%E6%92%B8mybatis-04-%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E8%A7%A3%E6%9E%90%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/'>
 <meta property='og:site_name' content='Dmme&#39;s blog'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='手撸Mybatis' /><meta property='article:tag' content='Mybatis' /><meta property='article:tag' content='学习笔记' /><meta property='article:published_time' content='2022-06-12T00:22:03&#43;08:00'/><meta property='article:modified_time' content='2022-06-12T00:22:03&#43;08:00'/>
 <meta name="twitter:title" content="手撸Mybatis-04-数据源的解析、创建和使用">
-<meta name="twitter:description" content="设计图 工程结构 small-mybatis-04 ├── pom.xml └── src ├── main │ ├── java │ │ └── com │ │ └── dmme │ │ └── mybatis │ │ ├── binding │ │ │ ├── MapperMethod.java │ │ │ ├── MapperProxy.java │ │ │ ├── MapperProxyFactory.java">
+<meta name="twitter:description" content="目的 解析Config.xml 线程池连接数据库操作，增加事务操作 设计图 工程结构 small-mybatis-04 ├── pom.xml └── src ├── main │ ├── java │ │ └── com │ │ └── dmme │ │">
     <link rel="shortcut icon" href="/img/favicon.png" />
 
     </head>
@@ -267,7 +267,7 @@
   <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
 </svg>
                 <time class="article-words">
-                    398字
+                    427字
                 </time>
             </div>
         
@@ -281,14 +281,19 @@
     <section class="article-content">
     
     
-    <p><strong>设计图</strong></p>
-<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/mybatis/202208182229890.png"
+    <p><strong>目的</strong></p>
+<ul>
+<li>解析Config.xml</li>
+<li>线程池连接数据库操作，增加事务操作</li>
+</ul>
+<p><strong>设计图</strong></p>
+<p><img src="https://dmme-blog.oss-cn-shenzhen.aliyuncs.com/img/mybatis/202208292222606.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="image-20220818222921753"
+		alt="image-20220829222239393"
 	
 	
 ></p>
@@ -356,8 +361,7 @@
 </span></span><span class="line"><span class="cl">            <span class="err">├──</span> <span class="n">mapper</span>
 </span></span><span class="line"><span class="cl">            <span class="err">│</span>   <span class="err">└──</span> <span class="n">User_Mapper</span><span class="o">.</span><span class="na">xml</span> <span class="c1">// mapper文件
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="err">└──</span> <span class="n">mybatis</span><span class="o">-</span><span class="n">config</span><span class="o">-</span><span class="n">datasource</span><span class="o">.</span><span class="na">xml</span> <span class="c1">// 配置文件
-</span></span></span></code></pre></div><p><strong>解析</strong></p>
-
+</span></span></span></code></pre></div>
 </section>
 
 
@@ -522,7 +526,7 @@
         2022&nbsp;
         <a href="https://dmme2024.xyz/">Dmme&#39;s blog</a> 
         <br><a id="days">0</a>天，
-        总共5.6k字，共 6篇文章</br><span><p></p>
+        总共5.7k字，共 6篇文章</br><span><p></p>
     </section>
     
     <section class="powerby">

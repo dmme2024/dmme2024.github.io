@@ -267,7 +267,7 @@
   <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
 </svg>
                 <time class="article-words">
-                    561字
+                    653字
                 </time>
             </div>
         
@@ -339,7 +339,9 @@
 </span></span><span class="line"><span class="cl">            <span class="err">└──</span> <span class="n">mybatis</span><span class="o">-</span><span class="n">config</span><span class="o">-</span><span class="n">datasource</span><span class="o">.</span><span class="na">xml</span>
 </span></span></code></pre></div><p><strong>分析</strong></p>
 <p>MapperMethod：MapperProxy调用执行，MapperMethod调用SqlSession执行具体的Sql方法</p>
-<p>XMLConfigBuilder解析Mapper.xml 跟 config.xml，将SQL语句转换为MappedStatement</p>
+<p>XMLConfigBuilder：解析Mapper.xml 跟 config.xml，将SQL语句转换为MappedStatement</p>
+<p>SqlSessionFactoryBuilder：建造者模式，build SqlSessionFactory对象，调用XMLConfigBuilder</p>
+<p>MappedStatement: 封装的SQL，也使用了建造者模式</p>
 
 </section>
 
@@ -505,7 +507,7 @@
         2022&nbsp;
         <a href="https://dmme2024.xyz/">Dmme&#39;s blog</a> 
         <br><a id="days">0</a>天，
-        总共5.6k字，共 6篇文章</br><span><p></p>
+        总共5.7k字，共 6篇文章</br><span><p></p>
     </section>
     
     <section class="powerby">
